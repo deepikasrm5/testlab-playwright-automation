@@ -18,15 +18,15 @@ export class FormPage {
             profilePicture: page.getByText('Profile picture')
         };
         this.inputFields = {
-            fullName : page.getByRole('textbox', {name: 'Full name'}),
-            email : page.getByRole('textbox', { name: 'Email' }),
+            fullName: page.getByRole('textbox', { name: 'Full name' }),
+            email: page.getByRole('textbox', { name: 'Email' }),
             phoneNumber: page.getByRole('textbox', { name: 'Phone' }),
             dateOfBirth: page.getByRole('textbox', { name: 'Date of birth' }),
-            bio: page.getByRole('textbox', {name: 'Bio'}),
-            interest: (option) => { return page.getByRole('checkbox', {name: `${option}`}) },
-            preferedContactMethod : (method) => { return page.getByRole('radio', { name: `${method}` }) },
-            profilePicture : page.getByRole('button', { name: 'Choose a file to upload' }),
-            termsAndConditions : page.locator('#form-terms-checkbox')
+            bio: page.getByRole('textbox', { name: 'Bio' }),
+            interest: (option) => { return page.getByRole('checkbox', { name: `${option}` }) },
+            preferedContactMethod: (method) => { return page.getByRole('radio', { name: `${method}` }) },
+            profilePicture: page.getByRole('button', { name: 'Choose a file to upload' }),
+            termsAndConditions: page.locator('#form-terms-checkbox')
         };
         this.submitButton = page.getByRole('button', { name: 'Submit' });
         this.resetButton = page.getByRole('button', { name: 'Reset' });
@@ -103,9 +103,27 @@ export class FormPage {
         await this.inputFields.preferedContactMethod(method).check();
     }
 
+    async verifyOneContactMethodSelected(selectedMethod) {
+        const allMethods = ['Email', 'Phone', 'SMS'];
+
+        for (const method of allMethods) {
+            if (method === selectedMethod) {
+                await expect(this.inputFields.preferedContactMethod(method)).toBeChecked();
+            } else {
+                await expect(this.inputFields.preferedContactMethod(method)).not.toBeChecked();
+            }
+        }
+    }
+
     async selectInterests(interests) {
         for (const interest of interests) {
             await this.inputFields.interest(interest).check();
+        }
+    }
+
+    async validateInterestSelected(interests) {
+        for (const interest of interests) {
+            await expect(this.inputFields.interest(interest), { message: `${interest} checkbox should be selected` }).toBeChecked({ timeout: 10000 });
         }
     }
 
@@ -127,5 +145,23 @@ export class FormPage {
 
     async clickReset() {
         await this.resetButton.click();
+    }
+
+    async validateFieldsReset() {
+        for (const field in this.inputFields) {
+            if (field === 'interest' || field === 'preferedContactMethod' || field === 'termsAndConditions') {
+                continue; // Skip validation for dynamic fields
+            }
+            await expect(this.inputFields[field], { message: `${field} input field should be empty` }).toHaveValue('', { timeout: 10000 });
+        }
+        const allInterests = ['Automation', 'Performance', 'Security'];
+        for (const interest of allInterests) {
+            await expect(this.inputFields.interest(interest), { message: `${interest} checkbox should be unchecked` }).not.toBeChecked({ timeout: 10000 });
+        }
+        const allMethods = ['Email', 'Phone', 'SMS'];
+        for (const method of allMethods) {
+            await expect(this.inputFields.preferedContactMethod(method), { message: `${method} radio button should be unchecked` }).not.toBeChecked({ timeout: 10000 });
+        }
+        await expect(this.inputFields.termsAndConditions, { message: "Terms and Conditions checkbox should be unchecked" }).not.toBeChecked({ timeout: 10000 });
     }
 }
