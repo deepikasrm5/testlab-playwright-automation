@@ -2,7 +2,8 @@ import { test as base } from "@playwright/test";
 import { LoginPage } from "../pages/loginPage";
 import { FormPage } from "../pages/formPage";
 import { DashboardPage } from "../pages/dashboard";
-import { baseUrl } from "../config/config.json";
+import config from "../config/config.json" with { type: "json" };
+const { baseUrl } = config;
 export const test = base.extend({
 
     loginPage: [async ({ browser }, use) => {

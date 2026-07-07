@@ -1,6 +1,7 @@
 import { DashboardPage } from './dashboard';
 import { expect } from '../tests/base';
-import { formsFlow } from '../test_data/constants.json' with { type: 'json' };
+import testData from '../test_data/constants.json' with { type: 'json' };
+const { formsFlow } = testData;
 const userData = formsFlow.userDetails;
 export class FormPage {
     constructor(page) {

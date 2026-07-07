@@ -1,5 +1,5 @@
 import { test, expect } from '../base';
-import { config } from '../../config/config.json' with { type: 'json' };
+import config from '../../config/config.json' with { type: 'json' };
 const browserType = process.env.BROWSER || 'chromium';
 
 test.describe(`Login Tests - ${browserType}`, () => {

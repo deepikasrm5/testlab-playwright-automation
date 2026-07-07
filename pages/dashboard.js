@@ -1,5 +1,6 @@
 import { expect } from '../tests/base';
-import { baseUrl } from '../config/config.json' with { type: 'json' };
+import config from '../config/config.json' with { type: 'json' };
+const { baseUrl } = config;
 export class DashboardPage {
     constructor(page) {
         this.page = page;

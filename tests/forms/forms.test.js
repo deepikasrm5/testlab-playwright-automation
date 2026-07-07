@@ -1,6 +1,6 @@
 import { test, expect } from '../base';
-import { config } from '../../config/config.json' with { type: 'json' };
-import testData  from '../../test_data/constants.json' with { type: 'json' };
+import config from '../../config/config.json' with { type: 'json' };
+import testData from '../../test_data/constants.json' with { type: 'json' };
 const userDetails = testData.formsFlow.userDetails;
 const validationMessages = testData.formsFlow.validationMessages;
 const browserType = process.env.BROWSER || 'chromium';
