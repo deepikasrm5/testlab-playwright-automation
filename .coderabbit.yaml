@@ -15,7 +15,6 @@ reviews:
         These are Page Object Model classes for Playwright automation in JavaScript.
         Review for:
         - All locators must be defined inside the constructor only
-        - No assertions (expect) inside page objects
         - Each method must do ONE thing only
         - No hardcoded test data inside page objects
         - Constructor must accept 'page' as parameter and store as this.page
