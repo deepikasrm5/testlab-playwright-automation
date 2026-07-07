@@ -1,5 +1,7 @@
-import { DashboardPage } from "./dashboard";
+import { DashboardPage } from './dashboard';
 import { expect } from '../tests/base';
+import { formsFlow } from '../test_data/constants.json' with { type: 'json' };
+const userData = formsFlow.userDetails;
 export class FormPage {
     constructor(page) {
         this.page = page;
@@ -104,7 +106,7 @@ export class FormPage {
     }
 
     async verifyOneContactMethodSelected(selectedMethod) {
-        const allMethods = ['Email', 'Phone', 'SMS'];
+        const allMethods = Object.values(userData.preferedContactMethod);
 
         for (const method of allMethods) {
             if (method === selectedMethod) {

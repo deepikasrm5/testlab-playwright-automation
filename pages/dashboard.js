@@ -1,5 +1,5 @@
 import { expect } from '../tests/base';
-import { baseUrl } from '../config/config.json';
+import { baseUrl } from '../config/config.json' with { type: 'json' };
 export class DashboardPage {
     constructor(page) {
         this.page = page;
@@ -50,13 +50,13 @@ export class DashboardPage {
     }
 
     async validateFeatureNames(features) {
-        for (i=0; i<features.length; i++) {
+        for (let i=0; i<features.length; i++) {
             await expect(this.cardName(features[i]), { message: `${features[i]} card name should be visible` }).toBeVisible({ timeout: 10000 });
         }
     }
 
     async validateFeatureDescription(descriptions) {
-        for (i=0; i<descriptions.length; i++) {
+        for (let i=0; i<descriptions.length; i++) {
             await expect(this.featDescription(descriptions[i]), { message: `Description is missing / not matching` }).toBeVisible({ timeout: 10000 });
         }
     }

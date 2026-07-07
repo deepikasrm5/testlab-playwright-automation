@@ -1,10 +1,10 @@
-const { test, expect } = require('../base')
-const config = require('../../config/config.json');
-const testData = require('../../test_data/constants.json');
+import { test, expect } from '../base';
+import { config } from '../../config/config.json' with { type: 'json' };
+import testData  from '../../test_data/constants.json' with { type: 'json' };
 const userDetails = testData.formsFlow.userDetails;
 const validationMessages = testData.formsFlow.validationMessages;
 const browserType = process.env.BROWSER || 'chromium';
-const path = require('path');
+import path from 'path';
 
 test.describe(`Forms Tests - ${browserType}`, () => {
     test('[TC-FRM-Add1] Validate whether all input labels are visible on the Forms page', async ({ formPage }) => {
