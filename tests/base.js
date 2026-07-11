@@ -1,7 +1,9 @@
 import { test as base } from "@playwright/test";
 import { LoginPage } from "../pages/loginPage";
 import { FormPage } from "../pages/formPage";
-import { baseUrl } from "../config/config.json";
+import { DashboardPage } from "../pages/dashboard";
+import config from "../config/config.json" with { type: "json" };
+const { baseUrl } = config;
 export const test = base.extend({
 
     loginPage: [async ({ browser }, use) => {
@@ -19,12 +21,16 @@ export const test = base.extend({
 
     }, { scope: 'worker' }],
 
+    dashboardPage: async ({ page }, use) => {
+        const dashboardPage = new DashboardPage(page);
+        await use(dashboardPage);
+    },
+
     formPage: async ({ page }, use) => {
         const formPage = new FormPage(page);
+        await formPage.navigateToForms();
         await use(formPage);
-        await formPage.page.goto(baseUrl);
-        await formPage.page.waitForLoadState('domcontentloaded', { timeout: 10000 });
-        await formPage.page.waitForSelector('text=Forms', { timeout: 10000 });
+        
     },
 
 

@@ -1,7 +1,9 @@
 // @ts-check
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
-import { baseUrl } from './config/config.json'
+import config from './config/config.json' with { type: 'json' };
+
+const { baseUrl } = config;
 /** @type {'chromium' | 'firefox' | 'webkit'} */
 // @ts-ignore
 const targetedBrowser = process.env.BROWSER || 'chromium';

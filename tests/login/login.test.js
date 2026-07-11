@@ -1,7 +1,8 @@
-const { test, expect } = require('../base')
-const config = require('../../config/config.json');
+import { test, expect } from '../base';
+import config from '../../config/config.json' with { type: 'json' };
+const browserType = process.env.BROWSER || 'chromium';
 
-test.describe('Login Tests', () => {
+test.describe(`Login Tests - ${browserType}`, () => {
     test('[TC-LGN-006] Validate error message appears if we try to login with empty username and password fields', async ({ loginPage }) => {
         await loginPage.navigate(config.baseUrl);
         await loginPage.clickSignIn();
