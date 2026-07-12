@@ -8,4 +8,4 @@ test('Global Setup for the tests - Login', async ({ loginPage }) => {
     await loginPage.login(credentials.username, credentials.password);
     await loginPage.page.waitForURL('**/dashboard', { timeout: 10000 });
     await loginPage.page.context().storageState({ path: './storageState.json' });
-})
+});

@@ -2,6 +2,7 @@ import { test as base } from "@playwright/test";
 import { LoginPage } from "../pages/loginPage";
 import { FormPage } from "../pages/formPage";
 import { DashboardPage } from "../pages/dashboard";
+import { AlertsAndNotificationsPage } from "../pages/alertsPage";
 import config from "../config/config.json" with { type: "json" };
 const { baseUrl } = config;
 export const test = base.extend({
@@ -34,9 +35,10 @@ export const test = base.extend({
     },
 
 
-    alertsPage: async ({ page }, use) => {
-        const alertsPage = new AlertsPage(page);
-        await use(alertsPage);
+    alertsAndNotificationsPage: async ({ page }, use) => {
+        const alertsAndNotificationsPage = new AlertsAndNotificationsPage(page);
+        await alertsAndNotificationsPage.navigateToAlertsAndNotifications();
+        await use(alertsAndNotificationsPage);
     },
 
     multiStepFormPage: async ({ page }, use) => {

@@ -7,6 +7,7 @@
     "tests": "npx playwright test",
     "formFlow": "cross-env npx playwright test --project=formsFlow",
     "loginFlow": "cross-env npx playwright test --project=loginFlow",
+    "alertsAndNotificationsFlow": "cross-env npx playwright test --project=alertsAndNotificationsFlow",
     "report": "allure generate allure-results --clean -o allure-report && allure open allure-report"
   },
   "keywords": [],
