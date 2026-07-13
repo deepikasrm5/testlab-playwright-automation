@@ -31,6 +31,7 @@ export class AlertsAndNotificationsPage {
         this.lastDialogResult = page.locator('#dialog-result-msg');
 
         // toast notifications locators
+        this.toastNotificationsTitle = page.getByRole('heading', { name: 'Toast notifications' })
         this.successToastButton = page.getByRole('button', { name: 'Show Success Toast' });
         this.errorToastButton = page.getByRole('button', { name: 'Show Error Toast' });
         this.warningToastButton = page.getByRole('button', { name: 'Show Warning Toast' });
@@ -247,5 +248,33 @@ export class AlertsAndNotificationsPage {
     async clickSave() {
         await this.actionButton('Save').waitFor({ state:'visible', timeout: 10000 });
         await this.actionButton('Save').click();
+    }
+
+    async validateToastNotificationSection() {
+        await expect(this.toastNotificationsTitle).toBeVisible({ timeout: 10000 });
+
+        await expect(this.successToastButton).toBeVisible({ timeout: 10000 });
+
+        await expect(this.errorToastButton).toBeVisible({ timeout: 10000 });
+
+        await expect(this.warningToastButton).toBeVisible({ timeout: 10000 });
+    }
+
+    async clickSuccessToast() {
+        await this.successToastButton.waitFor({ state:'visible', timeout: 10000 });
+
+        await this.successToastButton.click(); 
+    }
+
+    async clickErrorToast() {
+        await this.errorToastButton.waitFor({ state:'visible', timeout: 10000 });
+
+        await this.errorToastButton.click(); 
+    }
+
+    async clickWarningToast() {
+        await this.warningToastButton.waitFor({ state:'visible', timeout: 10000 });
+
+        await this.warningToastButton.click(); 
     }
 }

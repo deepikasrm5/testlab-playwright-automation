@@ -1,6 +1,8 @@
 import { test, expect } from '../base';
-import config from '../../config/config.json' with { type: 'json' };
 const browserType = process.env.BROWSER || 'chromium';
+import testData from '../../test_data/constants.json' with { type: 'json' };
+const alerts = testData.alertsAndNotificationsFlow;
+const toastMessages = alerts.toastMessages;
 
 test.describe(`Alerts & Notifications tests - Toast Messages - ${browserType}`, () => {
     test('[TC-ALT-Add3] Validate whether the toast notifications section is visible', async ({ alertsAndNotificationsPage }) => {
@@ -10,18 +12,18 @@ test.describe(`Alerts & Notifications tests - Toast Messages - ${browserType}`, 
         await test.step('Click \'Show Success toast\' button', async () => {
             await alertsAndNotificationsPage.clickSuccessToast();
         });
-        await alertsAndNotificationsPage.validateSuccessToastMessage();
+        await alertsAndNotificationsPage.validateSuccessToastMessage(toastMessages.success);
     });
     test('[TC-ALT-072] Verify whether clicking \'Show Error Toast\' button displays a red toast notification at the top-right corner', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Show Error toast\' button', async () => {
             await alertsAndNotificationsPage.clickErrorToast();
         });
-        await alertsAndNotificationsPage.validateErrorToastMessage(); 
+        await alertsAndNotificationsPage.validateErrorToastMessage(toastMessages.error); 
     });
     test('[TC-ALT-077] Verify whether clicking \'Show Warning Toast\' button displays a yellow/orange toast notification at the top-right corner', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Show Warning toast\' button', async () => {
             await alertsAndNotificationsPage.clickWarningToast();
         });
-        await alertsAndNotificationsPage.validateWarningToastMessage();
+        await alertsAndNotificationsPage.validateWarningToastMessage(toastMessages.warning);
     });
 })
