@@ -4,21 +4,24 @@
             "fullName": "Vaishnavi Sriram",
             "email": "vaishnavi.sriram@example.com",
             "phoneNumber": "9012345687",
-            "country":"in",
-            "interests":{
-                "auto":"Automation",
-                "perf":"Performance",
-                "sec":"Security"
+            "country": "in",
+            "interests": {
+                "auto": "Automation",
+                "perf": "Performance",
+                "sec": "Security"
             },
-            "preferedContactMethod":{
-                "email":"Email",
-                "phone":"Phone",
-                "sms":"SMS"
+            "preferedContactMethod": {
+                "email": "Email",
+                "phone": "Phone",
+                "sms": "SMS"
             },
             "bio": "I am a software engineer with a passion for automation and performance testing. I have experience in developing and executing test plans, as well as analyzing and reporting test results. In my free time, I enjoy contributing to open-source projects and staying up-to-date with the latest trends in technology.",
             "profilePicture": "../../test_data/images/profile_avatar.jpg",
             "dateOfBirth": "1990-01-01",
-            "invalidEmail": ["vaishnavi.sriram.invalid", "john.doe@"],
+            "invalidEmail": [
+                "vaishnavi.sriram.invalid",
+                "john.doe@"
+            ],
             "invalidPhoneNumber": "12345",
             "invalidProfilePicture": "../../test_data/images/invalid_file.txt"
         },
@@ -36,6 +39,54 @@
                 "phoneNumber": "Enter a valid phone number.",
                 "profilePicture": "Upload a valid image file.",
                 "dateOfBirth": "Enter a valid date of birth."
+            }
+        }
+    },
+    "alertsAndNotificationsFlow": {
+        "alertMessages": {
+            "jsAlert"  : "This is a native JavaScript alert.",
+            "jsConfirm": "Do you want to proceed with this action?",
+            "jsPrompt" : "What is your name?",
+            "confirmModal": "This action cannot be undone. Are you sure you want to permanently delete this item?"
+        },
+        "promptInput": {
+            "validName": "Vaishnavi"
+        },
+        "lastDialogResult": {
+            "jsAlert": {
+                "ok": "Alert dialog was acknowledged."
+            },
+            "jsConfirm": {
+                "cancel": "Confirm: user clicked Cancel.",
+                "ok": "Confirm: user clicked OK."
+            },
+            "jsPrompt": {
+                "cancel": "Prompt: user cancelled.",
+                "ok": "Prompt: user entered"
+            },
+            "infoModal": {
+                "closed": "Info modal closed.",
+                "ok": "Info modal acknowledged."
+            },
+            "confirmModal": {
+                "cancel": "Modal confirm: cancelled.",
+                "ok": "Modal confirm: item deleted."
+            },
+            "formModal": {
+                "cancel": "Modal form: cancelled.",
+                "ok": "Modal form: saved nickname"
+            }
+        },
+        "toastMessages": {
+            "success": "Operation completed successfully.",
+            "error"  : "Something went wrong. Please try again.",
+            "warning": "Please review your input before continuing.",
+            "itemDeleted": "Item deleted successfully.",
+            "nicknameSaved": "Saved nickname: "
+        },
+        "validationMessages": {
+            "empty":{
+                "nickName": "Nickname is required."
             }
         }
     }

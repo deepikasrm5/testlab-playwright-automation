@@ -59,12 +59,15 @@ export default defineConfig({
     {
       name: "loginFlow",
       testMatch: "tests/login/*",
-      fullyParallel: false,
-      workers: 1
     },
     {
       name: "formsFlow",
       testMatch: "tests/forms/*",
+      dependencies: ["setup"]
+    },
+    {
+      name: "alertsAndNotificationsFlow",
+      testMatch: "tests/alertsAndNotifications/*",
       dependencies: ["setup"]
     }
   ],
