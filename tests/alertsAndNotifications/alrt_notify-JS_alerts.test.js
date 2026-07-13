@@ -1,7 +1,7 @@
 import { test, expect } from '../base';
-import config from '../../config/config.json' with { type: 'json' };
 const browserType = process.env.BROWSER || 'chromium';
-import { alertsAndNotificationsFlow as alerts } from '../../test_data/constants.json' with { type: 'json' };
+import testData  from '../../test_data/constants.json' with { type: 'json' };
+const alerts = testData.alertsAndNotificationsFlow;
 const messages = alerts.alertMessages;
 const lastResult = alerts.lastDialogResult;
 const promptInput = alerts.promptInput;

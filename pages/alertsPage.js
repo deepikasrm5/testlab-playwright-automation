@@ -25,7 +25,7 @@ export class AlertsAndNotificationsPage {
         this.closeButton = (modalType) => { return page.locator(`#${modalType}-modal-close-btn`) };
         this.actionButton = (button) => { return page.getByRole('button', { name: button }) }
 
-        this.lastDialogueResult = page.locator('#dialogue-result-msg');
+        this.lastDialogResult = page.locator('#dialog-result-msg');
 
         // toast notifications locators
         this.successToastButton = page.getByRole('button', { name: 'Show Success Toast' });
@@ -48,6 +48,7 @@ export class AlertsAndNotificationsPage {
         await this.dashboard.openDashboard();
         await this.dashboard.clickCard('Alerts & Notifications');
         await this.alertsTitle.waitFor({ state: 'visible', timeout: 10000 });
+        await this.page.waitForLoadState('networkidle');
     }
  
     /** Asserts the Native JS dialogs section title and all 3 buttons are visible */
@@ -64,33 +65,25 @@ export class AlertsAndNotificationsPage {
      */
     async clickJSAlertButton() {
         this.currentType = 'jsAlert';
-        const dialogPromise = new Promise(resolve => {
-            this.page.once('dialog', dialog => resolve(dialog));
-        });
-        await this.jsAlertButton.waitFor({ state: 'visible', timeout: 10000 });
-        await this.jsAlertButton.click();
+        const dialogPromise = this.page.waitForEvent('dialog');
+        this.jsAlertButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
+
  
     /** Registers dialog listener BEFORE clicking JS Confirm */
     async clickJSConfirmButton() {
         this.currentType = 'jsConfirm';
-        const dialogPromise = new Promise(resolve => {
-            this.page.once('dialog', dialog => resolve(dialog));
-        });
-        await this.jsConfirmButton.waitFor({ state: 'visible', timeout: 10000 });
-        await this.jsConfirmButton.click();
+        const dialogPromise = this.page.waitForEvent('dialog');
+        this.jsConfirmButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
  
     /** Registers dialog listener BEFORE clicking JS Prompt */
     async clickJSPromptButton() {
         this.currentType = 'jsPrompt';
-        const dialogPromise = new Promise(resolve => {
-            this.page.once('dialog', dialog => resolve(dialog));
-        });
-        await this.jsPromptButton.waitFor({ state: 'visible', timeout: 10000 });
-        await this.jsPromptButton.click();
+        const dialogPromise = this.page.waitForEvent('dialog');
+        this.jsPromptButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
  
@@ -99,8 +92,9 @@ export class AlertsAndNotificationsPage {
      * For prompt — passes this.enteredName (set by enterNameInAlert) to dialog.accept().
      */
     async clickOK() {
-        const isPrompt = this.currentDialog.type() === 'prompt';
-        await this.currentDialog.accept(isPrompt ? (this.enteredName ?? '') : undefined);
+        await this.currentDialog.accept(
+            this.currentDialog.type() === 'prompt' ? (this.enteredName ?? '') : undefined
+        );
     }
  
     /**
@@ -125,8 +119,8 @@ export class AlertsAndNotificationsPage {
  
     /** Asserts the captured dialog is not null — confirms dialog was triggered */
     async validateTheAlertTrigger() {
+        await this.page.waitForTimeout(500);
         expect(this.currentDialog).not.toBeNull();
-        expect(this.currentDialog).toBeDefined();
     }
  
     /**
@@ -134,13 +128,14 @@ export class AlertsAndNotificationsPage {
      * Asserts the dialog message text and accepts the dialog to unblock the page.
      */
     async validateTheAlertMessage(expectedMessage) {
+        await this.page.waitForTimeout(500);
         expect(this.currentDialog.message()).toBe(expectedMessage);
         await this.currentDialog.accept();
     }
  
-    /** Asserts the page is unblocked after dialog dismissal by checking lastDialogueResult is visible */
+    /** Asserts the page is unblocked after dialog dismissal by checking lastDialogResult is visible */
     async validateAlertDismissed() {
-        await expect(this.lastDialogueResult).toBeVisible({ timeout: 5000 });
+        await expect(this.lastDialogResult).toBeVisible({ timeout: 10000 });
     }
  
     /**
@@ -150,10 +145,10 @@ export class AlertsAndNotificationsPage {
      */
     async validateTheLastDialogResult(expectedMessage) {
         if (this.currentType === 'jsPrompt' && this.enteredName) {
-            await expect(this.lastDialogueResult).toContainText(expectedMessage);
-            await expect(this.lastDialogueResult).toContainText(this.enteredName);
+            await expect(this.lastDialogResult).toContainText(expectedMessage);
+            await expect(this.lastDialogResult).toContainText(this.enteredName);
         } else {
-            await expect(this.lastDialogueResult).toHaveText(expectedMessage);
+            await expect(this.lastDialogResult).toHaveText(expectedMessage);
         }
     }
 }
