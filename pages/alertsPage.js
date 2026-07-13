@@ -21,9 +21,12 @@ export class AlertsAndNotificationsPage {
         this.formModalButton = page.getByRole('button', { name: 'Open Form Modal' });
         this.validationMessage = (message) => { return page.getByText(message) }
 
-        this.modalDescription = (modalType) => { return page.locator(`${modalType}-modal-desc`) };
-        this.closeButton = (modalType) => { return page.locator(`#${modalType}-modal-close-btn`) };
-        this.actionButton = (button) => { return page.getByRole('button', { name: button }) }
+        this.modal = (modalType) => { return page.locator(`#${modalType}-modal`) };
+        this.modalTitle = (modalType) => { return this.modal(modalType).locator(`#${modalType}-modal-title`) };
+        this.modalDescription = (modalType) => { return this.modal(modalType).locator(`#${modalType}-modal-desc`) };
+        this.nickNameField = page.getByRole('textbox', { name: 'Nickname'});
+        this.closeButton = (modalType) => { return this.modal(modalType).locator(`#${modalType}-modal-close-btn`) };
+        this.actionButton = (button) => { return page.getByRole('button', { name: `${button}` }) }
 
         this.lastDialogResult = page.locator('#dialog-result-msg');
 
@@ -150,5 +153,99 @@ export class AlertsAndNotificationsPage {
         } else {
             await expect(this.lastDialogResult).toHaveText(expectedMessage);
         }
+    }
+
+    /**
+     * Validation function to check whether all custom modal buttons are available or not
+     */
+    async validateModalDialogSection() {
+        await expect(this.customModalAlertsTitle, { message: 'Title should be visible' }).toBeVisible({ timeout: 10000 });
+
+        await expect(this.infoModalButton, { message: 'Info Modal Button should be visible' }).toBeVisible({ timeout: 10000 });
+
+        await expect(this.confirmModalButton, { message: 'Confirm Modal Button should be visible' }).toBeVisible({ timeout: 10000 });
+
+        await expect(this.formModalButton, { message: 'Form Modal Button should be visible' }).toBeVisible({ timeout: 10000 });
+    }
+
+    async openInfoModal() {
+        await this.infoModalButton.waitFor({ state: 'visible', timeout: 10000 });
+        await this.infoModalButton.click();
+    }
+
+    async openConfirmModal() {
+        await this.confirmModalButton.waitFor({ state: 'visible', timeout: 10000 });
+        await this.confirmModalButton.click();
+    }
+
+    async openFormModal() {
+        await this.formModalButton.waitFor({ state: 'visible', timeout: 10000 });
+        await this.formModalButton.click();
+    }
+
+    async enterNickName(name) {
+        await this.nickNameField.waitFor({ state: 'visible', timeout: 10000 });
+        await this.nickNameField.fill(name);
+    }
+
+    async validateTheModalOpened(type) {
+        await expect(this.modal(type), { message: `${type} modal should be visible` }).toBeVisible({ timeout: 10000 });
+    }
+
+    async validateModalDisappeared(type) {
+        await expect(this.modal(type), { message: `${type} modal should be disappeared` }).not.toBeVisible({ timeout: 10000 });
+    }
+
+    async validateModalTitle(type) {
+        await expect(this.modalTitle(type), { message: `${type} modal title should be visible` }).toBeVisible({ timeout: 10000 });
+    }
+
+    async validateInlineErrorMessage(message) {
+        await expect(this.validationMessage(message), { message: `Inline error message - '${message}' should be visible` }).toBeVisible({ timeout: 10000 });
+    }
+
+    async validateModalWarningText(text) {
+        await expect(this.modalDescription('confirm')).toBeVisible({ timeout: 10000 });
+        await expect(this.modalDescription('confirm')).toContainText(text,{ timeout: 10000 });
+    }
+
+    async validateSuccessToastMessage(message) {
+        await expect(this.successToast).toBeVisible({ timeout: 10000 });
+        await expect(this.successToast).toContainText(message, { timeout: 10000 });
+    }
+
+    async validateErrorToastMessage(message) {
+        await expect(this.errorToast).toBeVisible({ timeout: 10000 });
+        await expect(this.errorToast).toContainText(message, { timeout: 10000 });
+    }
+
+    async validateWarningToastMessage(message) {
+        await expect(this.warningToast).toBeVisible({ timeout: 10000 });
+        await expect(this.warningToast).toContainText(message, { timeout: 10000 });
+    }
+
+    async clickGotIt() {
+        await this.actionButton('Got it').waitFor({ state: 'visible', timeout: 10000 });
+        await this.actionButton('Got it').click();
+    }
+
+    async closeDialog(type) {
+        await this.closeButton(type).waitFor({ state: 'visible', timeout: 10000 });
+        await this.closeButton(type).click();
+    }
+
+    async clickDelete() {
+        await this.actionButton('Delete').waitFor({ state: 'visible', timeout: 10000 });
+        await this.actionButton('Delete').click();
+    }
+
+    async clickCancel() {
+        await this.actionButton('Cancel').waitFor({ state: 'visible', timeout: 10000 });
+        await this.actionButton('Cancel').click();
+    }
+
+    async clickSave() {
+        await this.actionButton('Save').waitFor({ state:'visible', timeout: 10000 });
+        await this.actionButton('Save').click();
     }
 }

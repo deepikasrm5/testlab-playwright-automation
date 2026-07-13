@@ -46,7 +46,8 @@
         "alertMessages": {
             "jsAlert"  : "This is a native JavaScript alert.",
             "jsConfirm": "Do you want to proceed with this action?",
-            "jsPrompt" : "What is your name?"
+            "jsPrompt" : "What is your name?",
+            "confirmModal": "This action cannot be undone. Are you sure you want to permanently delete this item?"
         },
         "promptInput": {
             "validName": "Vaishnavi"
