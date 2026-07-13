@@ -5,6 +5,8 @@ const alerts = testData.alertsAndNotificationsFlow;
 const lastResult = alerts.lastDialogResult;
 const messages = alerts.alertMessages;
 const promptInput = alerts.promptInput;
+const toastMessages = alerts.toastMessages;
+const inlineErrorMessages = alerts.validationMessages;
 
 test.describe(`Alerts & Notifications tests - Custom Alerts & Modals - ${browserType}`, () => {
     test('[TC-FRM-Add2] Validate whether all the Custom Alerts buttons are visible', async ({ alertsAndNotificationsPage }) => {
@@ -93,7 +95,7 @@ test.describe(`Alerts & Notifications tests - Custom Alerts & Modals - ${browser
         await test.step('Click Delete', async () => {
             await alertsAndNotificationsPage.clickDelete();
         });
-        await alertsAndNotificationsPage.validateSuccessToastMessage('Item deleted successfully.');
+        await alertsAndNotificationsPage.validateSuccessToastMessage(toastMessages.itemDeleted);
     });
     test('[TC-ALT-042] Verify whether clicking the Cancel button closes the Confirm modal without performing any action', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Open Confirm Modal\' button', async () => {
@@ -146,7 +148,7 @@ test.describe(`Alerts & Notifications tests - Custom Alerts & Modals - ${browser
         });
         await alertsAndNotificationsPage.validateModalDisappeared('form');
     });
-    test.only('[TC-ALT-054] Verify whether LAST DIALOG RESULT updates to \'Modal form: saved nickname [name].\' after saving a valid nickname', async ({ alertsAndNotificationsPage }) => {
+    test('[TC-ALT-054] Verify whether LAST DIALOG RESULT updates to \'Modal form: saved nickname [name].\' after saving a valid nickname', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Open Form Modal\' button', async () => {
             await alertsAndNotificationsPage.openFormModal();
         });
@@ -168,7 +170,7 @@ test.describe(`Alerts & Notifications tests - Custom Alerts & Modals - ${browser
         await test.step('Click Save', async () => {
             await alertsAndNotificationsPage.clickSave();
         });
-        await alertsAndNotificationsPage.validateSuccessToastMessage(`Saved nickname: ${promptInput.validName}`);
+        await alertsAndNotificationsPage.validateSuccessToastMessage(`${toastMessages.nicknameSaved}${promptInput.validName}`);
     });
     test('[TC-ALT-056] Verify whether clicking Save with the Nickname field empty shows a validation error', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Open Form Modal\' button', async () => {
@@ -177,7 +179,7 @@ test.describe(`Alerts & Notifications tests - Custom Alerts & Modals - ${browser
         await test.step('Click Save', async () => {
             await alertsAndNotificationsPage.clickSave();
         });
-        await alertsAndNotificationsPage.validateInlineErrorMessage('Nickname is required.');
+        await alertsAndNotificationsPage.validateInlineErrorMessage(inlineErrorMessages.empty.nickName);
     });
     test('[TC-ALT-060] Verify whether clicking Cancel on the Form modal closes it without saving any data', async ({ alertsAndNotificationsPage }) => {
         await test.step('Click \'Open Form Modal\' button', async () => {

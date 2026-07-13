@@ -80,7 +80,14 @@
         "toastMessages": {
             "success": "Operation completed successfully.",
             "error"  : "Something went wrong. Please try again.",
-            "warning": "Please review your input before continuing."
+            "warning": "Please review your input before continuing.",
+            "itemDeleted": "Item deleted successfully.",
+            "nicknameSaved": "Saved nickname: "
+        },
+        "validationMessages": {
+            "empty":{
+                "nickName": "Nickname is required."
+            }
         }
     }
 }

@@ -69,7 +69,7 @@ export class AlertsAndNotificationsPage {
      */
     async clickJSAlertButton() {
         this.currentType = 'jsAlert';
-        const dialogPromise = this.page.waitForEvent('dialog');
+        const dialogPromise = this.page.waitForEvent('dialog', { timeout: 10000 });
         this.jsAlertButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
@@ -78,7 +78,7 @@ export class AlertsAndNotificationsPage {
     /** Registers dialog listener BEFORE clicking JS Confirm */
     async clickJSConfirmButton() {
         this.currentType = 'jsConfirm';
-        const dialogPromise = this.page.waitForEvent('dialog');
+        const dialogPromise = this.page.waitForEvent('dialog', { timeout: 10000 });
         this.jsConfirmButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
@@ -86,7 +86,7 @@ export class AlertsAndNotificationsPage {
     /** Registers dialog listener BEFORE clicking JS Prompt */
     async clickJSPromptButton() {
         this.currentType = 'jsPrompt';
-        const dialogPromise = this.page.waitForEvent('dialog');
+        const dialogPromise = this.page.waitForEvent('dialog', { timeout: 10000 });
         this.jsPromptButton.click().catch(() => {});
         this.currentDialog = await dialogPromise;
     }
@@ -106,10 +106,11 @@ export class AlertsAndNotificationsPage {
      * Dismisses native dialog if type starts with 'js', else clicks DOM Cancel button.
      */
     async clickCancel(type) {
-        this.currentType = type;
-        if (type.startsWith('js')) {
+        this.currentType = type !== undefined ? type : null;
+        if (type !== undefined & type.startsWith('js')) {
             await this.currentDialog.dismiss();
         } else {
+            await this.actionButton('Cancel').waitFor({ state: 'visible', timeout: 10000 });
             await this.actionButton('Cancel').click();
         }
     }
@@ -238,11 +239,6 @@ export class AlertsAndNotificationsPage {
     async clickDelete() {
         await this.actionButton('Delete').waitFor({ state: 'visible', timeout: 10000 });
         await this.actionButton('Delete').click();
-    }
-
-    async clickCancel() {
-        await this.actionButton('Cancel').waitFor({ state: 'visible', timeout: 10000 });
-        await this.actionButton('Cancel').click();
     }
 
     async clickSave() {
