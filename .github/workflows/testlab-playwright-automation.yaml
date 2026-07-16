@@ -18,6 +18,13 @@ jobs:
     env:
       CI: true
       BROWSER: chromium
+      BASE_URL: ${{ secrets.BASE_URL }}
+      VALID_USERNAME: ${{ secrets.VALID_USERNAME }}
+      VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+      INVALID_USERNAME: ${{ secrets.INVALID_USERNAME }}
+      INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
+      XSS_USERNAME: ${{secrets.XSS_USERNAME}}
+      XSS_PASSWORD: ${{secrets.XSS_PASSWORD}}
 
     steps:
       # Step 1: Checkout code from the branch
