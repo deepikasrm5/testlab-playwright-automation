@@ -3,6 +3,7 @@ import { LoginPage } from "../pages/loginPage";
 import { FormPage } from "../pages/formPage";
 import { DashboardPage } from "../pages/dashboard";
 import { AlertsAndNotificationsPage } from "../pages/alertsPage";
+import { MultiStepFormPage } from "../pages/multiStepFormPage";
 import config from "../config/config.json" with { type: "json" };
 const { baseUrl } = config;
 export const test = base.extend({
@@ -43,6 +44,7 @@ export const test = base.extend({
 
     multiStepFormPage: async ({ page }, use) => {
         const multiStepFormPage = new MultiStepFormPage(page);
+        await multiStepFormPage.navigateToMultiStepFormsPage();
         await use(multiStepFormPage);
     },
 

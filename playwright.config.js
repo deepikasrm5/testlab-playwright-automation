@@ -69,6 +69,11 @@ export default defineConfig({
       name: "alertsAndNotificationsFlow",
       testMatch: "tests/alertsAndNotifications/*",
       dependencies: ["setup"]
+    },
+    {
+      name: "multiStepFormFlow",
+      testMatch: "tests/multiStepForms/*",
+      dependencies: ["setup"]
     }
   ],
 });
