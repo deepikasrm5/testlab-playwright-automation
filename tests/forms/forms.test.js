@@ -1,10 +1,10 @@
 import { test, expect } from '../base';
-import config from '../../config/config.json' with { type: 'json' };
 import testData from '../../test_data/constants.json' with { type: 'json' };
 const userDetails = testData.formsFlow.userDetails;
 const validationMessages = testData.formsFlow.validationMessages;
 const browserType = process.env.BROWSER || 'chromium';
 import path from 'path';
+import { resolve } from 'path';
 
 test.describe(`Forms Tests - ${browserType}`, () => {
     test('[TC-FRM-Add1] Validate whether all input labels are visible on the Forms page', async ({ formPage }) => {
@@ -87,7 +87,7 @@ test.describe(`Forms Tests - ${browserType}`, () => {
         });
 
         await test.step('Upload profile picture', async () => {
-            await formPage.uploadProfilePicture(path.resolve(__dirname, userDetails.profilePicture));
+            await formPage.uploadProfilePicture(resolve(import.meta.dirname, userDetails.profilePicture));
         });
 
         await test.step('Accept terms and conditions', async () => {

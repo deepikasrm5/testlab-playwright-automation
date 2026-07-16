@@ -1,5 +1,5 @@
 import { expect } from '../tests/base';
-import config from '../config/config.json' with { type: 'json' };
+import { config } from '../config/config.js';
 const { baseUrl } = config;
 export class DashboardPage {
     constructor(page) {

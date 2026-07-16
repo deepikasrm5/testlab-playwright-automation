@@ -1,7 +1,11 @@
 // @ts-check
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
-import config from './config/config.json' with { type: 'json' };
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+import { config } from './config/config.js';
 
 const { baseUrl } = config;
 /** @type {'chromium' | 'firefox' | 'webkit'} */
@@ -31,7 +35,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['allure-playwright', {
-      detail: true, 
+      detail: true,
       outputFolder: 'allure-results',
       suiteTitle: true
     }]
@@ -41,9 +45,9 @@ export default defineConfig({
     ...browserDevices[targetedBrowser],
     baseURL: baseUrl,
     storageState: 'storageState.json',
-    headless: true ? process.env.CI === 'true' : false,
+    headless: process.env.CI === 'true',
     trace: 'on',
-    slowMo: 800,
+    slowMo: process.env.CI === 'true' ? 0 : 800,
     video: 'retain-on-failure',
     screenshot: 'only-on-failure'
   },

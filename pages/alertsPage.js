@@ -107,7 +107,7 @@ export class AlertsAndNotificationsPage {
      */
     async clickCancel(type) {
         this.currentType = type !== undefined ? type : null;
-        if (type !== undefined & type.startsWith('js')) {
+        if (type !== undefined && type.startsWith('js')) {
             await this.currentDialog.dismiss();
         } else {
             await this.actionButton('Cancel').waitFor({ state: 'visible', timeout: 10000 });
