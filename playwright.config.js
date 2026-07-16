@@ -3,6 +3,9 @@
 import { defineConfig, devices } from '@playwright/test';
 import { config } from './config/config';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const { baseUrl } = config;
 /** @type {'chromium' | 'firefox' | 'webkit'} */
 // @ts-ignore
