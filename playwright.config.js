@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
-import config from './config/config.json' with { type: 'json' };
+import { config } from './config/config';
 
 const { baseUrl } = config;
 /** @type {'chromium' | 'firefox' | 'webkit'} */

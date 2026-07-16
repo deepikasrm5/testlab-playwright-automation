@@ -7,6 +7,6 @@ node_modules/
 /playwright/.auth/
 playwright_pom_practice_testcases.csv
 storageState.json
-config/config.json
+config/config.js
 allure-results/
 allure-report/
