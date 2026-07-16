@@ -1,10 +1,11 @@
 // @ts-check
 /// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
-import { config } from './config/config';
 
 import dotenv from 'dotenv';
 dotenv.config();
+
+import { config } from './config/config.js';
 
 const { baseUrl } = config;
 /** @type {'chromium' | 'firefox' | 'webkit'} */
