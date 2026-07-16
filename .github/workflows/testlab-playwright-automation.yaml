@@ -54,13 +54,16 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      # Step 6: Upload Allure results as artifact
-      # if: always() ensures upload happens even if tests fail
-      # so you can see the report for failed runs too
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
+      # Generate Allure report
+      - name: Generate Allure report
         if: always()
+        run: npx allure generate allure-results --clean -o allure-report
+
+      # Deploy to GitHub Pages
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: allure-results
-          path: allure-results/
-          retention-days: 30
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
+          publish_branch: gh-pages
