@@ -1,0 +1,59 @@
+name: Testlab playwright automation Tests
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]       # Triggers when PR is raised against main
+
+  schedule:
+    - cron: '30 4 * * 1,3,5'   # Runs on Monday, Wednesday, Friday 10 AM IST (4:30 AM UTC)
+
+  workflow_dispatch:        # Manual trigger from GitHub Actions UI
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      CI: true
+      BROWSER: chromium
+
+    steps:
+      # Step 1: Checkout code from the branch
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js with npm cache
+      # cache: 'npm' speeds up installs by caching node_modules
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'  # ← reads from .nvmrc automatically
+          cache: 'npm'
+
+      # Step 3: Install project dependencies
+      # npm ci is used instead of npm install
+      # because ci does clean install and respects package-lock.json exactly
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Install Playwright browsers
+      # --with-deps installs OS level dependencies needed for chromium on Ubuntu
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # Step 5: Run Playwright tests
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      # Step 6: Upload Allure results as artifact
+      # if: always() ensures upload happens even if tests fail
+      # so you can see the report for failed runs too
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results/
+          retention-days: 30
